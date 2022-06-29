@@ -1,0 +1,1 @@
+/home/buzz/1dgame-clone/target/debug/game: /home/buzz/1dgame-clone/src/block.rs /home/buzz/1dgame-clone/src/camera.rs /home/buzz/1dgame-clone/src/frame_buffer.rs /home/buzz/1dgame-clone/src/lines.rs /home/buzz/1dgame-clone/src/main.rs /home/buzz/1dgame-clone/src/map.rs
