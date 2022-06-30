@@ -13,7 +13,7 @@ use minifb::Key; // For getting keyboard input
 
 const MOVEMENT_SPEED: f32 = 1.0 / 60.0;
 const ROTATION_SPEED: f32 = std::f32::consts::PI / 180.0;
-const FOV_STEP: f32 = std::f32::consts::PI / 120.0;
+const FOV_STEP: f32 = 1.01; // std::f32::consts::PI / 120.0;
 
 fn main() {
     // Create new window and buffer
@@ -105,8 +105,8 @@ fn main() {
                 }
                 Key::Left => cam.ang = Angle(cam.ang.0 - ROTATION_SPEED),
                 Key::Right => cam.ang = Angle(cam.ang.0 + ROTATION_SPEED),
-                Key::Q => cam.fov.0 += FOV_STEP,
-                Key::E => cam.fov.0 -= FOV_STEP,
+                Key::Q => cam.fov.0 *= FOV_STEP,
+                Key::E => cam.fov.0 /= FOV_STEP,
                 _ => (),
             }
         });
