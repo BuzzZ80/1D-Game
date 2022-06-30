@@ -101,3 +101,10 @@ impl std::convert::From<Segment> for (f32, f32, f32, f32) {
         (seg.0 .0, seg.0 .1, seg.1 .0, seg.1 .1)
     }
 }
+
+impl std::ops::Add<Point> for Point {
+    type Output = Self;
+    fn add(self, other: Self) -> Self {
+        Point(self.0 + other.0, self.1 + other.1)
+    }
+}

@@ -1,3 +1,4 @@
+use crate::frame_buffer::Color;
 use crate::lines::*;
 
 #[derive(Debug, Copy, Clone)]
@@ -9,5 +10,5 @@ pub enum BarrierKind {
 pub struct Barrier {
     pub seg: Segment,
     pub kind: BarrierKind,
-    pub color: u32,
+    pub color: Color,
 }

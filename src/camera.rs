@@ -31,8 +31,11 @@ impl Camera {
 
             *c = match ray.cast_for_map(env) {
                 Some(intersection) => {
-                    println!("Intersected! {current_angle:?}");
-                    intersection.barrier.unwrap().color
+                    let mut color = intersection.barrier.unwrap().color;
+                    color = color * f32::min(1.0 / intersection.distance, 1.0);
+                    color = color * (intersection.angle.0.sin());
+
+                    color.into()
                 }
                 None => 0
             }
