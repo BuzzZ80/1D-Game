@@ -1,15 +1,15 @@
+mod barrier;
+mod camera;
 mod frame_buffer;
 mod lines;
-mod barrier;
 mod map;
-mod camera;
 
-use minifb::Key; // For getting keyboard input
-use frame_buffer::{FrameBuffer, Color};
-use lines::*;
 use barrier::*;
-use map::Map;
 use camera::*;
+use frame_buffer::{Color, FrameBuffer};
+use lines::*;
+use map::Map;
+use minifb::Key; // For getting keyboard input
 
 const MOVEMENT_SPEED: f32 = 1.0 / 60.0;
 const ROTATION_SPEED: f32 = std::f32::consts::PI / 120.0;
@@ -31,43 +31,43 @@ fn main() {
     );
 
     let mut map = Map::empty();
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 1.0, 1.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(0.0, 0.0), Point(10.0, 0.0)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 1.0, 1.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(0.0, 0.0), Point(0.0, 10.0)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 1.0, 1.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(10.0, 0.0), Point(10.0, 10.0)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 1.0, 1.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(0.0, 10.0), Point(10.0, 10.0)),
     });
 
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(4.5, 4.5), Point(5.5, 4.5)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(4.5, 4.5), Point(4.5, 5.5)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(5.5, 4.5), Point(5.5, 5.5)),
     });
-    map.barriers.push(Barrier{
+    map.barriers.push(Barrier {
         color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
         seg: Segment(Point(4.5, 5.5), Point(5.5, 5.5)),
@@ -90,19 +90,26 @@ fn main() {
             let rightx = (cam.ang.0 + std::f32::consts::PI / 2.0).cos();
             let righty = (cam.ang.0 + std::f32::consts::PI / 2.0).sin();
             match key {
-                Key::W => cam.pos = cam.pos + Point(forwardx * MOVEMENT_SPEED, forwardy * MOVEMENT_SPEED),
-                Key::A => cam.pos = cam.pos + Point(-rightx * MOVEMENT_SPEED, -righty * MOVEMENT_SPEED),
-                Key::S => cam.pos = cam.pos + Point(-forwardx * MOVEMENT_SPEED, -forwardy * MOVEMENT_SPEED),
-                Key::D => cam.pos = cam.pos + Point(rightx * MOVEMENT_SPEED, righty * MOVEMENT_SPEED),
+                Key::W => {
+                    cam.pos = cam.pos + Point(forwardx * MOVEMENT_SPEED, forwardy * MOVEMENT_SPEED)
+                }
+                Key::A => {
+                    cam.pos = cam.pos + Point(-rightx * MOVEMENT_SPEED, -righty * MOVEMENT_SPEED)
+                }
+                Key::S => {
+                    cam.pos =
+                        cam.pos + Point(-forwardx * MOVEMENT_SPEED, -forwardy * MOVEMENT_SPEED)
+                }
+                Key::D => {
+                    cam.pos = cam.pos + Point(rightx * MOVEMENT_SPEED, righty * MOVEMENT_SPEED)
+                }
                 Key::Left => cam.ang = Angle(cam.ang.0 - ROTATION_SPEED),
                 Key::Right => cam.ang = Angle(cam.ang.0 + ROTATION_SPEED),
                 Key::Q => cam.fov.0 += FOV_STEP,
                 Key::E => cam.fov.0 -= FOV_STEP,
                 _ => (),
-            }}
-        );
-
-        println!("CAM_POS: ({}, {}) @ {} radians", cam.pos.0, cam.pos.1, cam.ang.0);
+            }
+        });
 
         cam.capture(&map);
 

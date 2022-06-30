@@ -37,9 +37,8 @@ impl Camera {
 
                     color.into()
                 }
-                None => 0
+                None => 0,
             }
-
         }
     }
 }

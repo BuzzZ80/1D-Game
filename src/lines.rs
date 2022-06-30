@@ -1,5 +1,5 @@
-use crate::map::Map;
 use crate::barrier::Barrier;
+use crate::map::Map;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Point(pub f32, pub f32);
@@ -60,8 +60,8 @@ impl Ray {
             f32::sqrt((point.0 - self.pos.0).powf(2.0) + (point.1 - self.pos.1).powf(2.0));
 
         let (w1, w2) = (self.dir.0, self.dir.1);
-        let v1 = seg.1.0 - seg.0.0;
-        let v2 = seg.1.1 - seg.0.1;
+        let v1 = seg.1 .0 - seg.0 .0;
+        let v2 = seg.1 .1 - seg.0 .1;
         let x = w2 * v1 - w1 * v2;
         let y = w1 * v1 + w2 * v2;
         let angle = Angle(f32::atan2(x, y).abs());
@@ -87,10 +87,11 @@ impl Ray {
             };
 
             match closest_intersection {
-                Some(Intersection{distance, ..}) if current_intersection.distance > distance => {}
+                Some(Intersection { distance, .. }) if current_intersection.distance > distance => {
+                }
                 _ => closest_intersection = Some(current_intersection),
             };
-        };
+        }
 
         closest_intersection
     }
