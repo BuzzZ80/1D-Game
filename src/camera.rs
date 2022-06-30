@@ -32,7 +32,7 @@ impl Camera {
             *c = match ray.cast_for_map(env) {
                 Some(intersection) => {
                     let mut color = intersection.barrier.unwrap().color;
-                    color = color * f32::min(1.0 / intersection.distance, 1.0);
+                    color = color * f32::min(5.0 / intersection.distance, 1.0);
                     color = color * (intersection.angle.0.sin());
 
                     color.into()

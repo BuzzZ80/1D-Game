@@ -5,7 +5,7 @@ mod map;
 mod camera;
 
 use minifb::Key; // For getting keyboard input
-use frame_buffer::*;
+use frame_buffer::{FrameBuffer, Color};
 use lines::*;
 use barrier::*;
 use map::Map;
@@ -13,6 +13,7 @@ use camera::*;
 
 const MOVEMENT_SPEED: f32 = 1.0 / 60.0;
 const ROTATION_SPEED: f32 = std::f32::consts::PI / 120.0;
+const FOV_STEP: f32 = std::f32::consts::PI / 120.0;
 
 fn main() {
     // Create new window and buffer
@@ -33,20 +34,54 @@ fn main() {
     map.barriers.push(Barrier{
         color: Color(1.0, 1.0, 1.0),
         kind: BarrierKind::Basic,
-        seg: Segment(Point(1.0, 0.0), Point(2.0, 1.0)),
+        seg: Segment(Point(0.0, 0.0), Point(10.0, 0.0)),
+    });
+    map.barriers.push(Barrier{
+        color: Color(1.0, 1.0, 1.0),
+        kind: BarrierKind::Basic,
+        seg: Segment(Point(0.0, 0.0), Point(0.0, 10.0)),
+    });
+    map.barriers.push(Barrier{
+        color: Color(1.0, 1.0, 1.0),
+        kind: BarrierKind::Basic,
+        seg: Segment(Point(10.0, 0.0), Point(10.0, 10.0)),
+    });
+    map.barriers.push(Barrier{
+        color: Color(1.0, 1.0, 1.0),
+        kind: BarrierKind::Basic,
+        seg: Segment(Point(0.0, 10.0), Point(10.0, 10.0)),
+    });
+
+    map.barriers.push(Barrier{
+        color: Color(1.0, 0.0, 0.0),
+        kind: BarrierKind::Basic,
+        seg: Segment(Point(4.5, 4.5), Point(5.5, 4.5)),
     });
     map.barriers.push(Barrier{
         color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
-        seg: Segment(Point(2.0, 1.0), Point(2.0, 2.0)),
+        seg: Segment(Point(4.5, 4.5), Point(4.5, 5.5)),
     });
     map.barriers.push(Barrier{
-        color: Color(1.0, 0.0, 1.0),
+        color: Color(1.0, 0.0, 0.0),
         kind: BarrierKind::Basic,
-        seg: Segment(Point(3.0, 0.0), Point(3.0, 3.0)),
+        seg: Segment(Point(5.5, 4.5), Point(5.5, 5.5)),
+    });
+    map.barriers.push(Barrier{
+        color: Color(1.0, 0.0, 0.0),
+        kind: BarrierKind::Basic,
+        seg: Segment(Point(4.5, 5.5), Point(5.5, 5.5)),
     });
 
+    let mut size = (0, 0);
+
     while fb.window.is_open() && !fb.window.is_key_down(Key::Escape) {
+        let new_size = (fb.window.get_size().0, fb.window.get_size().1);
+        if new_size != size {
+            size = new_size;
+            fb.buffer.resize(size.0 * size.1, 0);
+            cam.view.resize(size.0, 0);
+        }
         fb.window.get_keys().iter().for_each(|key| {
             //let camcos = cam.ang.0.cos();
             //let camsin = cam.ang.0.sin();
@@ -61,6 +96,8 @@ fn main() {
                 Key::D => cam.pos = cam.pos + Point(rightx * MOVEMENT_SPEED, righty * MOVEMENT_SPEED),
                 Key::Left => cam.ang = Angle(cam.ang.0 - ROTATION_SPEED),
                 Key::Right => cam.ang = Angle(cam.ang.0 + ROTATION_SPEED),
+                Key::Q => cam.fov.0 += FOV_STEP,
+                Key::E => cam.fov.0 -= FOV_STEP,
                 _ => (),
             }}
         );

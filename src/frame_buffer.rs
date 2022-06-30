@@ -1,7 +1,7 @@
 use minifb::{ScaleMode, Window, WindowOptions}; // For opening the window and its framebuffer
 
-const WIDTH: usize = 1024;
-const HEIGHT: usize = 300;
+pub const WIDTH: usize = 1024;
+pub const HEIGHT: usize = 300;
 
 pub struct FrameBuffer {
     pub window: Window,
@@ -19,7 +19,7 @@ impl FrameBuffer {
                 WIDTH,
                 HEIGHT,
                 WindowOptions {
-                    resize: false,
+                    resize: true,
                     scale_mode: ScaleMode::UpperLeft,
                     ..WindowOptions::default()
                 },
@@ -35,8 +35,11 @@ impl FrameBuffer {
     }
 
     pub fn fill_column(&mut self, x: usize, color: u32) {
-        for y in 0..self.window.get_size().1 {
-            self.set_pixel(x, y, color)
+        let column_offset = self.window.get_size().0;
+        let mut y = 0;
+        for _ in 0..self.window.get_size().1 {
+            self.buffer[x + y] = color;
+            y += column_offset
         }
     }
 
