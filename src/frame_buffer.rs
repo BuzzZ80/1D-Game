@@ -1,6 +1,6 @@
 use minifb::{ScaleMode, Window, WindowOptions}; // For opening the window and its framebuffer
 
-const WIDTH: usize = 256;
+const WIDTH: usize = 512;
 const HEIGHT: usize = 300;
 
 pub struct FrameBuffer {
