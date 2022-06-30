@@ -12,7 +12,7 @@ use map::Map;
 use minifb::Key; // For getting keyboard input
 
 const MOVEMENT_SPEED: f32 = 1.0 / 60.0;
-const ROTATION_SPEED: f32 = std::f32::consts::PI / 120.0;
+const ROTATION_SPEED: f32 = std::f32::consts::PI / 180.0;
 const FOV_STEP: f32 = std::f32::consts::PI / 120.0;
 
 fn main() {

@@ -5,3 +5,9 @@ edition = "2021"
 
 [dependencies]
 minifb = "0.23"
+
+[profile.release]
+debug = 0
+opt-level = 3
+panic = "abort"
+strip = true
