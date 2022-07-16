@@ -29,11 +29,6 @@ impl FrameBuffer {
         }
     }
 
-    pub fn set_pixel(&mut self, x: usize, y: usize, color: u32) {
-        let w = self.window.get_size().0;
-        self.buffer[x + y * w] = color;
-    }
-
     pub fn fill_column(&mut self, x: usize, color: u32) {
         let column_offset = self.window.get_size().0;
         let mut y = 0;
@@ -57,10 +52,28 @@ impl std::convert::From<Color> for u32 {
     }
 }
 
+impl std::ops::Add<Color> for Color {
+    type Output = Self;
+    fn add(self, other: Self) -> Self {
+        Color(self.0 + other.0, self.1 + other.1, self.2 + other.2)
+    }
+}
+
 impl std::ops::Mul<Color> for Color {
     type Output = Self;
     fn mul(self, other: Self) -> Self {
         Color(self.0 * other.0, self.1 * other.1, self.2 * other.2)
+    }
+}
+
+impl std::ops::Div<f32> for Color {
+    type Output = Self;
+    fn div(self, other: f32) -> Self {
+        if other == 0.0 {
+            Color(0.0, 0.0, 0.0)
+        } else {
+            Color(self.0 / other, self.1 / other, self.2 / other)
+        }
     }
 }
 
